@@ -6,14 +6,29 @@
     <title>INU Starter — Components</title>
     <meta name="description" content="DESIGN.md 컴포넌트 쇼케이스 — 복붙 참고용" />
 
+    <!-- FOUC 가드 : paint 전에 테마 확정 (다크 기본, localStorage/시스템 반영) -->
+    <script>
+      (function () {
+        try {
+          var t =
+            localStorage.getItem("theme") ||
+            (matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark");
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- 라틴 디스플레이/모노 : Space Grotesk + JetBrains Mono (Google Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Pretendard : 한글 텍스트 통일 폰트 (dynamic subset) -->
+    <!-- 한글 : Pretendard 통일 폰트 (dynamic subset) -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
       rel="stylesheet"
@@ -30,54 +45,57 @@
   <body>
     <header id="site-nav"></header>
 
-    <!-- sub-nav : 카테고리 스트립 예시 -->
+    <!-- sub-nav : 프로스트 카테고리 스트립 예시 -->
     <div class="sub-nav">
       <span class="sub-nav__title">Components</span>
       <div class="sub-nav__actions">
         <a class="text-link" href="#buttons">Buttons</a>
         <a class="text-link" href="#cards">Cards</a>
-        <a class="btn-primary" href="index.html">홈</a>
+        <a class="btn btn--primary" href="index.html">홈</a>
       </div>
     </div>
 
-    <main class="container-grid" style="padding-block: var(--space-section)">
+    <main class="container-grid">
       <!-- Typography -->
-      <section style="margin-bottom: var(--space-section)">
-        <h2 class="t-display-md" style="margin-bottom: var(--space-lg)">
-          Typography
-        </h2>
-        <p class="t-hero-display">Hero display 56</p>
-        <p class="t-display-lg">Display large 40</p>
-        <p class="t-lead">Lead 28</p>
-        <p class="t-tagline">Tagline 21</p>
-        <p class="t-body">Body 17 — 본문 기본 크기입니다.</p>
-        <p class="t-caption">Caption 14</p>
+      <section class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Typography</p>
+        <div class="showcase-stack">
+          <p class="t-hero-display">Hero display — 히어로 타이틀</p>
+          <p class="t-display-lg">Display large — 섹션 헤딩</p>
+          <p class="t-display-md">Display medium — 소제목</p>
+          <p class="t-lead">Lead — 히어로 리드 문장입니다.</p>
+          <p class="t-body">Body — 본문 기본 크기입니다. 한글 가독성을 위한 1.7 행간.</p>
+          <p class="t-caption">Caption — 보조 설명 텍스트.</p>
+          <p class="t-eyebrow">Eyebrow / Mono — 메타 라벨</p>
+        </div>
       </section>
 
       <!-- Buttons -->
-      <section id="buttons" style="margin-bottom: var(--space-section)">
-        <h2 class="t-display-md" style="margin-bottom: var(--space-lg)">
-          Buttons
-        </h2>
-        <div
-          style="
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-            align-items: center;
-          "
-        >
-          <button class="btn-primary">Primary</button>
-          <button class="btn-secondary-pill">Secondary</button>
-          <button class="btn-dark-utility">Dark utility</button>
-          <button class="btn-store-hero">Store hero</button>
+      <section id="buttons" class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Buttons</p>
+        <div class="showcase-row">
+          <button class="btn btn--primary" type="button">Primary</button>
+          <button class="btn" type="button">Default</button>
+          <button class="btn btn--ghost" type="button">Ghost</button>
+          <button class="btn btn--primary btn--lg" type="button">Large CTA</button>
           <a class="text-link" href="#">Text link</a>
         </div>
       </section>
 
-      <!-- Inputs -->
-      <section style="margin-bottom: var(--space-section)">
-        <h2 class="t-display-md" style="margin-bottom: var(--space-lg)">Input</h2>
+      <!-- Filter chips -->
+      <section class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Filter chips</p>
+        <div class="chip-row">
+          <button class="chip is-active" type="button">전체</button>
+          <button class="chip" type="button">기초</button>
+          <button class="chip" type="button">컴포넌트</button>
+          <button class="chip" type="button">배포</button>
+        </div>
+      </section>
+
+      <!-- Input -->
+      <section class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Input</p>
         <div style="max-width: 360px">
           <label class="sr-only" for="demo-search">검색</label>
           <input
@@ -90,59 +108,47 @@
       </section>
 
       <!-- Cards -->
-      <section id="cards" style="margin-bottom: var(--space-section)">
-        <h2 class="t-display-md" style="margin-bottom: var(--space-lg)">
-          Cards
-        </h2>
+      <section id="cards" class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Cards</p>
         <div class="card-grid">
-          <article class="store-utility-card">
-            <div class="store-utility-card__media"></div>
-            <p class="store-utility-card__name">제품 이름</p>
-            <p class="store-utility-card__price">₩1,290,000</p>
-            <a class="text-link" href="#">자세히 ›</a>
+          <article class="card">
+            <p class="card__tag">Guide</p>
+            <h3 class="card__title">카드 컴포넌트</h3>
+            <p class="card__desc">
+              surface 배경에 1px 헤어라인. hover 시 시그널 보더 + 살짝 떠오릅니다.
+            </p>
+            <p class="card__foot">↳ 3 links</p>
           </article>
-          <article class="store-utility-card">
-            <div class="store-utility-card__media"></div>
-            <p class="store-utility-card__name">제품 이름</p>
-            <p class="store-utility-card__price">₩990,000</p>
-            <a class="text-link" href="#">자세히 ›</a>
+          <article class="card">
+            <p class="card__tag">Tokens</p>
+            <h3 class="card__title">토큰만 참조</h3>
+            <p class="card__desc">
+              모든 값은 <code>var(--token)</code>. 인라인 hex/px 를 새로 도입하지
+              않습니다.
+            </p>
+            <p class="card__foot">↳ 5 links</p>
           </article>
-          <article class="store-utility-card">
-            <div class="store-utility-card__media"></div>
-            <p class="store-utility-card__name">제품 이름</p>
-            <p class="store-utility-card__price">₩590,000</p>
-            <a class="text-link" href="#">자세히 ›</a>
-          </article>
-          <article class="store-utility-card">
-            <div class="store-utility-card__media"></div>
-            <p class="store-utility-card__name">제품 이름</p>
-            <p class="store-utility-card__price">₩390,000</p>
-            <a class="text-link" href="#">자세히 ›</a>
+          <article class="card">
+            <p class="card__tag">Depth</p>
+            <h3 class="card__title">헤어라인 깊이</h3>
+            <p class="card__desc">
+              카드·입력·바에는 그림자가 없습니다. 경계는 헤어라인과 surface step
+              으로만.
+            </p>
+            <p class="card__foot">↳ 2 links</p>
           </article>
         </div>
       </section>
 
-      <!-- Product tiles -->
-      <section>
-        <h2 class="t-display-md" style="margin-bottom: var(--space-lg)">
-          Product tiles
-        </h2>
+      <!-- Hero pattern -->
+      <section class="showcase-section">
+        <p class="t-eyebrow showcase-section__eyebrow">Hero pattern</p>
+        <p class="t-body" style="color: var(--color-muted)">
+          홈의 히어로는 정적 딥스페이스 히어로입니다(별자리 캔버스 미포함).
+          <span class="hero-accent">시그널 강조</span> 는 문장 안에서 한 단어에만.
+        </p>
       </section>
     </main>
-
-    <!-- full-bleed 타일은 container 밖에 두어 가장자리까지 채움 -->
-    <section class="product-tile product-tile--dark-2">
-      <div class="product-tile__inner">
-        <h3 class="t-display-lg">다크 타일</h3>
-        <p class="t-lead">색 변화 자체가 섹션 구분선 역할을 합니다.</p>
-      </div>
-    </section>
-    <section class="product-tile product-tile--parchment">
-      <div class="product-tile__inner">
-        <h3 class="t-display-lg">파치먼트 타일</h3>
-        <p class="t-lead">off-white 로 리듬을 만듭니다.</p>
-      </div>
-    </section>
 
     <footer id="site-footer"></footer>
   </body>

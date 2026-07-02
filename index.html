@@ -9,15 +9,29 @@
       content="INU 강의용 github.io 정적 웹서비스 스타터킷"
     />
 
-    <!-- Inter : 비-Apple 플랫폼 SF Pro(영문) 대체 폰트 (DESIGN.md 권고) -->
+    <!-- FOUC 가드 : paint 전에 테마 확정 (다크 기본, localStorage/시스템 반영) -->
+    <script>
+      (function () {
+        try {
+          var t =
+            localStorage.getItem("theme") ||
+            (matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark");
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- 라틴 디스플레이/모노 : Space Grotesk + JetBrains Mono (Google Fonts) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Pretendard : 한글 텍스트 통일 폰트 (dynamic subset) -->
+    <!-- 한글 : Pretendard 통일 폰트 (dynamic subset) -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
       rel="stylesheet"
@@ -29,7 +43,7 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/components.css" />
 
-    <!-- main.js 먼저(INU.bindNav 정의) → layout.js (nav/footer 주입) -->
+    <!-- main.js 먼저(INU.bindNav/bindTheme 정의) → layout.js (nav/footer 주입) -->
     <script defer src="js/main.js"></script>
     <script defer src="js/layout.js"></script>
   </head>
@@ -38,46 +52,95 @@
     <header id="site-nav"></header>
 
     <main>
-      <!-- 히어로 : 라이트 타일 -->
-      <section class="product-tile product-tile--light">
-        <div class="product-tile__inner">
-          <h1 class="t-hero-display">강의 프로젝트를 여기서 시작하세요</h1>
+      <!-- 히어로 : 딥스페이스 정적 히어로 (별자리 캔버스 없음) -->
+      <section class="hero">
+        <div class="hero__inner">
+          <p class="t-eyebrow">INU Lecture Starter Kit</p>
+          <h1 class="t-hero-display">
+            강의 프로젝트를 <span class="hero-accent">여기서</span> 시작하세요
+          </h1>
           <p class="t-lead">
             순수 HTML · CSS · JS. 빌드 없이 github.io 에 바로 배포됩니다.
           </p>
-          <div class="product-tile__cta">
-            <a class="btn-primary" href="components.html">컴포넌트 보기</a>
-            <a class="btn-secondary-pill" href="about.html">소개</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- 다크 타일 : 색 변화가 곧 섹션 구분선 -->
-      <section class="product-tile product-tile--dark">
-        <div class="product-tile__inner">
-          <h2 class="t-display-lg">DESIGN.md 기반 디자인 시스템</h2>
-          <p class="t-lead">
-            색 · 타이포 · 간격 · 라운드가 토큰으로 정의되어 일관됩니다.
-          </p>
-          <div class="product-tile__cta">
-            <a class="btn-primary" href="components.html">토큰 활용법</a>
-            <a class="text-link text-link--on-dark" href="about.html"
-              >자세히 보기 ›</a
+          <div class="hero__cta">
+            <a class="btn btn--primary btn--lg" href="components.html"
+              >컴포넌트 보기</a
             >
+            <a class="btn btn--lg" href="about.html">소개</a>
           </div>
         </div>
       </section>
 
-      <!-- 파치먼트 타일 : 연속 라이트 타일을 끊는 off-white -->
-      <section class="product-tile product-tile--parchment">
-        <div class="product-tile__inner">
-          <h2 class="t-display-lg">반응형 · 접근성 기본 제공</h2>
-          <p class="t-lead">
-            모바일 햄버거 네비게이션과 키보드 포커스 링이 포함됩니다.
-          </p>
-          <div class="product-tile__cta">
-            <a class="btn-primary" href="components.html">시작하기</a>
-          </div>
+      <!-- 카드 피드 : 필터 칩 + 카드 그리드 데모 -->
+      <section class="container-grid" style="padding-block: var(--space-12)">
+        <p class="t-eyebrow" style="margin-bottom: var(--space-3)">Filter</p>
+        <div class="chip-row" style="margin-bottom: var(--space-8)">
+          <button class="chip is-active" type="button">전체</button>
+          <button class="chip" type="button">기초</button>
+          <button class="chip" type="button">컴포넌트</button>
+          <button class="chip" type="button">배포</button>
+        </div>
+
+        <div class="card-grid">
+          <article class="card">
+            <p class="card__tag">Guide</p>
+            <h2 class="card__title">빠른 시작</h2>
+            <p class="card__desc">
+              저장소를 열고 <code>python3 -m http.server</code> 로 미리 봅니다. 새
+              페이지는 about.html 을 복사해 만드세요.
+            </p>
+            <p class="card__foot">↳ README</p>
+          </article>
+
+          <article class="card">
+            <p class="card__tag">Tokens</p>
+            <h2 class="card__title">디자인 토큰</h2>
+            <p class="card__desc">
+              색·타이포·간격·라운드가 DESIGN.md 단일 출처에서 파생됩니다. 스타일링
+              시 <code>var(--token)</code> 만 참조하세요.
+            </p>
+            <p class="card__foot">↳ DESIGN.md</p>
+          </article>
+
+          <article class="card">
+            <p class="card__tag">Deploy</p>
+            <h2 class="card__title">GitHub Pages</h2>
+            <p class="card__desc">
+              main 브랜치 root 를 Pages 소스로 지정하면 빌드 단계 없이 즉시
+              공개됩니다.
+            </p>
+            <p class="card__foot">↳ github.io</p>
+          </article>
+
+          <article class="card">
+            <p class="card__tag">Theme</p>
+            <h2 class="card__title">다크 / 라이트</h2>
+            <p class="card__desc">
+              다크 기본에 라이트 토글. data-theme 속성과 localStorage 로 선택이
+              유지됩니다.
+            </p>
+            <p class="card__foot">↳ 우측 상단 ☾</p>
+          </article>
+
+          <article class="card">
+            <p class="card__tag">A11y</p>
+            <h2 class="card__title">접근성 기본</h2>
+            <p class="card__desc">
+              시맨틱 마크업, 키보드 포커스 링, 스크린리더 전용 텍스트를 기본
+              제공합니다.
+            </p>
+            <p class="card__foot">↳ base.css</p>
+          </article>
+
+          <article class="card">
+            <p class="card__tag">Font</p>
+            <h2 class="card__title">3-폰트 시스템</h2>
+            <p class="card__desc">
+              Space Grotesk 디스플레이 · Pretendard 한글/본문 · JetBrains Mono
+              메타. 역할별로 나뉩니다.
+            </p>
+            <p class="card__foot">↳ tokens.css</p>
+          </article>
         </div>
       </section>
     </main>

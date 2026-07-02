@@ -1,8 +1,9 @@
 /* ============================================================
  * main.js — 페이지 인터랙션
  * ------------------------------------------------------------
- * 현재는 모바일(<=833px) 네비게이션 햄버거 토글을 담당합니다.
- * layout.js 가 nav 를 주입한 뒤 window.INU.bindNav() 를 호출합니다.
+ * 모바일(<=560px) 햄버거 토글과 다크/라이트 테마 토글을 담당합니다.
+ * layout.js 가 nav 를 주입한 뒤 window.INU.bindNav()·bindTheme() 를 호출합니다.
+ * (테마의 최초 값은 각 페이지 <head> 의 FOUC 가드 스크립트가 paint 전에 설정)
  * ============================================================ */
 
 window.INU = window.INU || {};
@@ -24,5 +25,27 @@ window.INU.bindNav = function bindNav() {
       links.classList.remove("is-open");
       toggle.setAttribute("aria-expanded", "false");
     }
+  });
+};
+
+/** 다크 ↔ 라이트 테마 토글 (data-theme + localStorage 유지) */
+window.INU.bindTheme = function bindTheme() {
+  const btn = document.querySelector(".global-nav__theme");
+  if (!btn) return;
+  const root = document.documentElement;
+
+  const label = () =>
+    root.dataset.theme === "light" ? "☀ Light" : "☾ Dark";
+  btn.textContent = label();
+
+  btn.addEventListener("click", () => {
+    const next = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch (e) {
+      /* localStorage 불가(사생활 모드 등) 시 세션 한정으로 동작 */
+    }
+    btn.textContent = label();
   });
 };

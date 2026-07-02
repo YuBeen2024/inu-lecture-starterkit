@@ -11,8 +11,10 @@
  * ============================================================ */
 
 // 사이트 메타 — 강의/프로젝트에 맞게 수정하세요.
+// 워드마크는 renderNav 에서 가운뎃점(·)을 시그널 색으로 렌더합니다.
 const SITE = {
-  brand: "INU Starter",
+  brandLead: "inu",
+  brandTail: "starter",
 };
 
 // 네비게이션 항목. href 는 상대경로(앞에 / 없이) — project-site 서브경로 배포 호환.
@@ -56,12 +58,12 @@ function renderNav() {
 
   return `
     <nav class="global-nav" aria-label="주요 메뉴">
-      <a class="global-nav__brand" href="index.html">${SITE.brand}</a>
+      <a class="global-nav__brand" href="index.html">${SITE.brandLead}<span class="dot">·</span>${SITE.brandTail}</a>
+      <div class="global-nav__links" id="nav-links">${links}</div>
+      <button class="global-nav__theme" type="button" aria-label="테마 전환"></button>
       <button class="global-nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
         <span class="sr-only">메뉴 열기</span>☰
       </button>
-      <div class="global-nav__links" id="nav-links">${links}</div>
-      <span class="global-nav__spacer"></span>
     </nav>
   `;
 }
@@ -103,6 +105,9 @@ function mountLayout() {
   // nav 주입 후 인터랙션 바인딩 (main.js 가 노출한 함수)
   if (window.INU && typeof window.INU.bindNav === "function") {
     window.INU.bindNav();
+  }
+  if (window.INU && typeof window.INU.bindTheme === "function") {
+    window.INU.bindTheme();
   }
 }
 
