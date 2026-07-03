@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: "index.html", label: "Home" },
   { href: "about.html", label: "About" },
   { href: "components.html", label: "Components" },
+  { href: "portfolio.html", label: "Portfolio" },
 ];
 
 const FOOTER_COLUMNS = [
@@ -31,6 +32,7 @@ const FOOTER_COLUMNS = [
       { href: "index.html", label: "홈" },
       { href: "about.html", label: "소개" },
       { href: "components.html", label: "컴포넌트" },
+      { href: "portfolio.html", label: "포트폴리오" },
     ],
   },
   {
